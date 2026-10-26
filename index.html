@@ -35,7 +35,7 @@
         /* 标题区域：强调三行代码与文学浪漫 */
         .header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
             border-bottom: 1px dashed #a8c89e;
             padding-bottom: 1.2rem;
         }
@@ -57,6 +57,38 @@
             color: #577d4a;
             font-style: italic;
             font-family: Garamond, 'Times New Roman', '宋体', SimSun, serif;
+        }
+
+        /* --- 新增：搜索框样式 --- */
+        .search-container {
+            margin: 1.5rem 0 2.5rem 0;
+            text-align: center;
+            width: 100%;
+        }
+        #search-input {
+            width: 80%;
+            max-width: 500px;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid #d4ddc5;
+            border-radius: 40px;
+            background-color: rgba(255, 250, 235, 0.8);
+            font-family: Garamond, 'Times New Roman', '宋体', SimSun, serif;
+            font-weight: 300;
+            font-size: 1rem;
+            color: #3b6e2e;
+            outline: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(140, 130, 90, 0.05);
+        }
+        #search-input::placeholder {
+            color: #9bb58b;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+        #search-input:focus {
+            border-color: #7fa06b;
+            background-color: #ffffff;
+            box-shadow: 0 6px 15px rgba(110, 130, 80, 0.1);
         }
 
         /* 三行代码卡片区 — 每个文学时代一块 */
@@ -235,6 +267,11 @@
     <div class="header">
         <h1>以码为诗 · 寄意三行</h1>
         <div class="subhead">世界古代 · 近代 · 现代文学中的浪漫</div>
+    </div>
+
+    <!-- 新增：搜索框 -->
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="🔍 搜索作家、作品名或简介... (如: 博尔赫斯、张爱玲、蒹葭)">
     </div>
 
     <!-- 古代文学 -->
@@ -486,6 +523,7 @@ if (整个城市) { 成全了她; }
             return raw;
         }
 
+        // 评论功能
         document.querySelectorAll('.btn-submit').forEach(button => {
             button.addEventListener('click', function(e) {
                 const cardId = this.getAttribute('data-card');
@@ -510,6 +548,46 @@ if (整个城市) { 成全了她; }
                 const replies = db.replies;
                 const randomReply = replies[Math.floor(Math.random() * replies.length)];
                 replyDiv.innerHTML = `「${comment}」<br><i>✦ 关于 ${authorKey}：${db.bio.substring(0, 60)}…</i><br>💬 ${randomReply}`;
+            });
+        });
+
+        // --- 新增：实时搜索逻辑 ---
+        const searchInput = document.getElementById('search-input');
+        const codeCards = document.querySelectorAll('.code-card');
+        const epochSections = document.querySelectorAll('.epoch-section');
+
+        searchInput.addEventListener('input', function() {
+            // 获取输入值并去除前后空格、转为小写
+            const keyword = this.value.trim().toLowerCase();
+
+            epochSections.forEach(section => {
+                const cardsInSection = section.querySelectorAll('.code-card');
+                let hasVisibleCard = false;
+
+                cardsInSection.forEach(card => {
+                    // 提取卡片中所有可用于搜索的文本（作者、简介、代码内容、显示的作者名）
+                    const authorAttr = card.getAttribute('data-author') || '';
+                    const bioAttr = card.getAttribute('data-bio') || '';
+                    const codeText = card.querySelector('.code-lines').innerText || '';
+                    const authorLabel = card.querySelector('.author').innerText || '';
+
+                    // 拼成一个完整字符串进行检索
+                    const searchString = `${authorAttr} ${bioAttr} ${codeText} ${authorLabel}`.toLowerCase();
+
+                    if (searchString.includes(keyword)) {
+                        card.style.display = 'flex'; // 恢复卡片原本的 flex 布局
+                        hasVisibleCard = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // 如果该时代下没有任何匹配的卡片，则连该时代的标题一起隐藏
+                if (hasVisibleCard || keyword === '') {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
             });
         });
     })();
