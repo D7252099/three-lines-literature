@@ -32,7 +32,7 @@
             background-color: transparent;
         }
 
-        /* 标题区域：强调三行代码与文学浪漫 */
+        /* 标题区域 */
         .header {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -65,7 +65,6 @@
             position: relative;
         }
         
-        /* 极简 SVG 搜索图标 */
         .search-icon {
             position: absolute;
             left: 50%;
@@ -120,7 +119,6 @@
             color: #2f5a1e;
         }
 
-        /* 卡片网格 */
         .code-grid {
             display: flex;
             flex-wrap: wrap;
@@ -146,15 +144,15 @@
             background-color: #fffdf6;
         }
 
-        /* --- 核心修改：三行代码主体背景图 --- */
+        /* --- 核心：三行代码主体背景图处理 --- */
         .code-lines {
             font-family: 'Courier New', 'Cascadia Code', 'Fira Code', '宋体', monospace;
-            font-weight: 400; /* 稍微加粗一点点以保证图片背景上的可读性 */
+            font-weight: 400; 
             font-size: 0.95rem;
             letter-spacing: 0.3px;
             line-height: 1.7;
-            color: #1c3d12; /* 颜色稍微加深，防止背景图干扰 */
-            background: #f9f4e9; /* 兜底背景色 */
+            color: #15330c; /* 颜色加深，确保在油画背景上也能看清 */
+            background: #f9f4e9; 
             padding: 1.2rem 1rem;
             border-radius: 12px;
             margin-bottom: 1rem;
@@ -162,37 +160,49 @@
             white-space: pre-wrap;
             word-break: break-word;
             
-            /* 设置相对定位和溢出隐藏，为了让伪元素背景图不超出圆角 */
             position: relative;
             overflow: hidden;
             z-index: 1;
-            text-shadow: 0 0 8px rgba(249, 244, 233, 0.9); /* 加一点文字发光/阴影，保证在复杂背景上清晰 */
+            /* 文字增加微弱的象牙白发光阴影，保证在深色油画背景上的阅读体验 */
+            text-shadow: 0 0 10px rgba(249, 244, 233, 0.9), 0 0 5px rgba(249, 244, 233, 0.8); 
         }
 
-        /* 利用伪元素添加 30% 透明度的背景图 */
+        /* 伪元素背景层 */
         .code-lines::before {
             content: "";
             position: absolute;
-            inset: 0; /* 相当于 top:0; right:0; bottom:0; left:0 */
+            inset: 0;
             background-size: cover;
             background-position: center;
-            opacity: 0.3; /* 透明度设置为 30% */
-            z-index: -1; /* 放在文字下面 */
-            /* 加入灰度与混合模式，使其与清新的底色完美融合 */
-            filter: grayscale(50%) sepia(20%);
-            mix-blend-mode: multiply;
+            opacity: 0.35; /* 35% 透明度，透出底图 */
+            z-index: -1; 
+            /* 核心滤镜：去色+棕褐色做旧，统一成博物馆古典画册质感 */
+            filter: sepia(0.6) grayscale(0.4) contrast(1.1); 
+            mix-blend-mode: multiply; /* 正片叠底，融入象牙白底色 */
         }
 
-        /* 为每个卡片分配不同的背景图（你可以替换为你自己的图片链接） */
-        .bg-shijing::before { background-image: url('https://images.unsplash.com/photo-1548169874-53e85f753f1e?q=80&w=800&auto=format&fit=crop'); } /* 山水意境 */
-        .bg-homer::before { background-image: url('https://images.unsplash.com/photo-1600078699895-5a200cc9746f?q=80&w=800&auto=format&fit=crop'); } /* 古典雕塑 */
-        .bg-19shou::before { background-image: url('https://images.unsplash.com/photo-1509927083803-4bd519298ac4?q=80&w=800&auto=format&fit=crop'); } /* 古风卷轴 */
-        .bg-keats::before { background-image: url('https://images.unsplash.com/photo-1499209974431-9dddcece7f88?q=80&w=800&auto=format&fit=crop'); } /* 夜莺/复古花园 */
-        .bg-hugo::before { background-image: url('https://images.unsplash.com/photo-1505666287802-931dc83948e9?q=80&w=800&auto=format&fit=crop'); } /* 古典油画感 */
-        .bg-pushkin::before { background-image: url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop'); } /* 俄罗斯风情/艺术 */
-        .bg-borges::before { background-image: url('https://images.unsplash.com/photo-1550399105-c4db5fb85c18?q=80&w=800&auto=format&fit=crop'); } /* 图书馆/迷宫 */
-        .bg-camus::before { background-image: url('https://images.unsplash.com/photo-1544889831-185b4046df86?q=80&w=800&auto=format&fit=crop'); } /* 荒诞/海边阳光 */
-        .bg-zhang::before { background-image: url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=800&auto=format&fit=crop'); } /* 民国/老上海城市 */
+        /* === 中国文学：水墨丹青 / 意境图 === */
+        /* 蒹葭：水墨芦苇水乡意境 */
+        .bg-shijing::before { background-image: url('https://images.unsplash.com/photo-1614311181813-955832beb37d?q=80&w=800&auto=format&fit=crop'); filter: grayscale(1) contrast(1.2); } 
+        /* 古诗十九首：水墨星河/孤影 */
+        .bg-19shou::before { background-image: url('https://images.unsplash.com/photo-1549475467-73ffbbf7b9e9?q=80&w=800&auto=format&fit=crop'); filter: grayscale(1) sepia(0.2); }
+        /* 张爱玲：民国老建筑/黑白意境 */
+        .bg-zhang::before { background-image: url('https://images.unsplash.com/photo-1542621334-a254cf47733d?q=80&w=800&auto=format&fit=crop'); filter: grayscale(1) sepia(0.3); }
+
+        /* === 外国文学：古典油画 / 博物馆画展风 === */
+        /* 荷马：古典主义航海/神话油画质感 */
+        .bg-homer::before { background-image: url('https://images.unsplash.com/photo-1577083552431-6e5fd01aa342?q=80&w=800&auto=format&fit=crop'); }
+        /* 济慈：古典浪漫主义森林夜景（类似格里姆肖画作） */
+        .bg-keats::before { background-image: url('https://images.unsplash.com/photo-1505322022379-7c3353ee6291?q=80&w=800&auto=format&fit=crop'); }
+        /* 雨果：法国大革命/古典人物油画感 */
+        .bg-hugo::before { background-image: url('https://images.unsplash.com/photo-1580136608260-4eb11f4b24fe?q=80&w=800&auto=format&fit=crop'); }
+        /* 普希金：俄罗斯古典庄园/宫廷油画 */
+        .bg-pushkin::before { background-image: url('https://images.unsplash.com/photo-1583248352195-d3a8e766edf2?q=80&w=800&auto=format&fit=crop'); }
+        /* 博尔赫斯：古典图书馆/迷宫油画 */
+        .bg-borges::before { background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=800&auto=format&fit=crop'); filter: sepia(0.8) grayscale(0.3); }
+        /* 加缪：古典雕塑/推石头的西西弗意象 */
+        .bg-camus::before { background-image: url('https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?q=80&w=800&auto=format&fit=crop'); filter: sepia(0.5) grayscale(0.6) contrast(1.2); }
+
 
         /* 作者标签 */
         .author {
@@ -320,7 +330,6 @@
         <div class="epoch-title">⟡ 古代 · 诗经与神话</div>
         <div class="code-grid">
             <div class="code-card" data-author="佚名 (《诗经》)" data-bio="《诗经》是中国最早的诗歌总集，收录西周至春秋的诗歌，作者大多佚名。蒹葭一诗以水乡秋景起兴，表达对伊人的追慕，朦胧而浪漫。">
-                <!-- 添加了 bg-shijing 类 -->
                 <div class="code-lines bg-shijing">
 // 三行代码 · 蒹葭
 const 秋水 = 苍苍;
