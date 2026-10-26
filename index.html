@@ -42,10 +42,9 @@
 
         h1 {
             font-size: 2.3rem;
-            font-weight: 300;           /* 瘦细 */
+            font-weight: 300;
             letter-spacing: 3px;
             text-transform: uppercase;
-            font-family: Garamond, 'Times New Roman', '宋体', SimSun, serif;
             color: #2b5e1f;
             margin-bottom: 0.5rem;
         }
@@ -56,7 +55,6 @@
             letter-spacing: 2px;
             color: #577d4a;
             font-style: italic;
-            font-family: Garamond, 'Times New Roman', '宋体', SimSun, serif;
         }
 
         /* 搜索框样式 */
@@ -64,15 +62,32 @@
             margin: 1.5rem 0 2.5rem 0;
             text-align: center;
             width: 100%;
+            position: relative;
         }
+        
+        /* 极简 SVG 搜索图标 */
+        .search-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-230px);
+            top: 50%;
+            margin-top: -10px;
+            width: 20px;
+            height: 20px;
+            stroke: #7fa06b;
+            fill: none;
+            stroke-width: 1.5;
+            pointer-events: none;
+        }
+
         #search-input {
             width: 80%;
             max-width: 500px;
-            padding: 0.8rem 1.5rem;
+            padding: 0.8rem 1.5rem 0.8rem 3rem;
             border: 1px solid #d4ddc5;
             border-radius: 40px;
             background-color: rgba(255, 250, 235, 0.8);
-            font-family: Garamond, 'Times New Roman', '宋体', SimSun, serif;
+            font-family: inherit;
             font-weight: 300;
             font-size: 1rem;
             color: #3b6e2e;
@@ -83,7 +98,6 @@
         #search-input::placeholder {
             color: #9bb58b;
             font-style: italic;
-            letter-spacing: 1px;
         }
         #search-input:focus {
             border-color: #7fa06b;
@@ -91,7 +105,7 @@
             box-shadow: 0 6px 15px rgba(110, 130, 80, 0.1);
         }
 
-        /* 三行代码卡片区 — 每个文学时代一块 */
+        /* 三行代码卡片区 */
         .epoch-section {
             margin-bottom: 3rem;
         }
@@ -104,10 +118,9 @@
             padding-left: 1rem;
             margin-bottom: 1.5rem;
             color: #2f5a1e;
-            font-family: Garamond, 'Times New Roman', '宋体', SimSun, serif;
         }
 
-        /* 卡片网格 使用flex 保持轻量 */
+        /* 卡片网格 */
         .code-grid {
             display: flex;
             flex-wrap: wrap;
@@ -116,7 +129,7 @@
         }
 
         .code-card {
-            background-color: rgba(255, 250, 235, 0.7); /* 半透明白色，不破坏底色 */
+            background-color: rgba(255, 250, 235, 0.7);
             border: 1px solid #d4ddc5;
             border-radius: 18px;
             padding: 1.6rem 1.2rem 1.2rem 1.2rem;
@@ -125,7 +138,6 @@
             transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(1px);
         }
 
         .code-card:hover {
@@ -134,22 +146,53 @@
             background-color: #fffdf6;
         }
 
-        /* 三行代码主体 — 纤细等宽风格 */
+        /* --- 核心修改：三行代码主体背景图 --- */
         .code-lines {
             font-family: 'Courier New', 'Cascadia Code', 'Fira Code', '宋体', monospace;
-            font-weight: 300;
+            font-weight: 400; /* 稍微加粗一点点以保证图片背景上的可读性 */
             font-size: 0.95rem;
             letter-spacing: 0.3px;
             line-height: 1.7;
-            color: #2e571f;
-            background: #f9f4e9;
-            padding: 1rem 1rem;
+            color: #1c3d12; /* 颜色稍微加深，防止背景图干扰 */
+            background: #f9f4e9; /* 兜底背景色 */
+            padding: 1.2rem 1rem;
             border-radius: 12px;
             margin-bottom: 1rem;
             border-left: 5px solid #b8d0aa;
             white-space: pre-wrap;
             word-break: break-word;
+            
+            /* 设置相对定位和溢出隐藏，为了让伪元素背景图不超出圆角 */
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-shadow: 0 0 8px rgba(249, 244, 233, 0.9); /* 加一点文字发光/阴影，保证在复杂背景上清晰 */
         }
+
+        /* 利用伪元素添加 30% 透明度的背景图 */
+        .code-lines::before {
+            content: "";
+            position: absolute;
+            inset: 0; /* 相当于 top:0; right:0; bottom:0; left:0 */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3; /* 透明度设置为 30% */
+            z-index: -1; /* 放在文字下面 */
+            /* 加入灰度与混合模式，使其与清新的底色完美融合 */
+            filter: grayscale(50%) sepia(20%);
+            mix-blend-mode: multiply;
+        }
+
+        /* 为每个卡片分配不同的背景图（你可以替换为你自己的图片链接） */
+        .bg-shijing::before { background-image: url('https://images.unsplash.com/photo-1548169874-53e85f753f1e?q=80&w=800&auto=format&fit=crop'); } /* 山水意境 */
+        .bg-homer::before { background-image: url('https://images.unsplash.com/photo-1600078699895-5a200cc9746f?q=80&w=800&auto=format&fit=crop'); } /* 古典雕塑 */
+        .bg-19shou::before { background-image: url('https://images.unsplash.com/photo-1509927083803-4bd519298ac4?q=80&w=800&auto=format&fit=crop'); } /* 古风卷轴 */
+        .bg-keats::before { background-image: url('https://images.unsplash.com/photo-1499209974431-9dddcece7f88?q=80&w=800&auto=format&fit=crop'); } /* 夜莺/复古花园 */
+        .bg-hugo::before { background-image: url('https://images.unsplash.com/photo-1505666287802-931dc83948e9?q=80&w=800&auto=format&fit=crop'); } /* 古典油画感 */
+        .bg-pushkin::before { background-image: url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=800&auto=format&fit=crop'); } /* 俄罗斯风情/艺术 */
+        .bg-borges::before { background-image: url('https://images.unsplash.com/photo-1550399105-c4db5fb85c18?q=80&w=800&auto=format&fit=crop'); } /* 图书馆/迷宫 */
+        .bg-camus::before { background-image: url('https://images.unsplash.com/photo-1544889831-185b4046df86?q=80&w=800&auto=format&fit=crop'); } /* 荒诞/海边阳光 */
+        .bg-zhang::before { background-image: url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=800&auto=format&fit=crop'); } /* 民国/老上海城市 */
 
         /* 作者标签 */
         .author {
@@ -161,7 +204,6 @@
             border-bottom: 1px dotted #b8cfaa;
             padding-bottom: 0.35rem;
             font-style: italic;
-            font-family: Garamond, 'Times New Roman', '宋体', serif;
         }
 
         .author span {
@@ -183,13 +225,12 @@
             border: 1px solid #cbdbbc;
             border-radius: 40px;
             padding: 0.6rem 1rem;
-            font-family: Garamond, 'Times New Roman', '宋体', serif;
+            font-family: inherit;
             font-weight: 300;
             font-size: 0.85rem;
             color: #2e4f22;
             width: 100%;
             outline: none;
-            transition: 0.15s;
             resize: none;
             min-height: 60px;
             line-height: 1.5;
@@ -197,7 +238,6 @@
 
         .comment-input::placeholder {
             color: #9bb58b;
-            font-weight: 300;
             font-style: italic;
             font-size: 0.8rem;
         }
@@ -213,14 +253,13 @@
             border: 1px solid #97b386;
             border-radius: 30px;
             padding: 0.35rem 1.2rem;
-            font-family: Garamond, 'Times New Roman', '宋体', serif;
+            font-family: inherit;
             font-weight: 300;
             font-size: 0.8rem;
             letter-spacing: 1px;
             color: #3b6e2e;
             cursor: pointer;
             transition: all 0.15s;
-            text-transform: uppercase;
         }
 
         .btn-submit:hover {
@@ -239,9 +278,7 @@
             border-radius: 16px;
             border-left: 4px solid #9eb88c;
             font-weight: 300;
-            letter-spacing: 0.2px;
             line-height: 1.6;
-            font-family: Garamond, 'Times New Roman', '宋体', serif;
         }
 
         .system-reply i {
@@ -249,7 +286,7 @@
             color: #6b8e5a;
         }
 
-        /* 整体诗意细节 */
+        /* 底部 */
         .footer-note {
             margin-top: 2rem;
             text-align: center;
@@ -258,7 +295,7 @@
             border-top: 1px dashed #d2dfc6;
             padding-top: 1.5rem;
             font-weight: 300;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
     </style>
 </head>
@@ -271,8 +308,11 @@
 
     <!-- 搜索框 -->
     <div class="search-container">
-        <!-- 修改了这里的 placeholder，去掉了彩色 Emoji，改为极简符号 ⌕ -->
-        <input type="text" id="search-input" placeholder="⌕ 搜索作家、作品名或简介... (如: 博尔赫斯、张爱玲、蒹葭)">
+        <svg class="search-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10.5" cy="10.5" r="6.5"></circle>
+            <line x1="15.5" y1="15.5" x2="21" y2="21"></line>
+        </svg>
+        <input type="text" id="search-input" placeholder="搜索作家、作品名或简介... (如: 博尔赫斯、张爱玲、蒹葭)">
     </div>
 
     <!-- 古代文学 -->
@@ -280,7 +320,8 @@
         <div class="epoch-title">⟡ 古代 · 诗经与神话</div>
         <div class="code-grid">
             <div class="code-card" data-author="佚名 (《诗经》)" data-bio="《诗经》是中国最早的诗歌总集，收录西周至春秋的诗歌，作者大多佚名。蒹葭一诗以水乡秋景起兴，表达对伊人的追慕，朦胧而浪漫。">
-                <div class="code-lines">
+                <!-- 添加了 bg-shijing 类 -->
+                <div class="code-lines bg-shijing">
 // 三行代码 · 蒹葭
 const 秋水 = 苍苍;
 const 白露 = 为霜;
@@ -295,7 +336,7 @@ while (所谓伊人) { 在水一方; }
             </div>
 
             <div class="code-card" data-author="荷马" data-bio="荷马，古希腊盲诗人，相传为《伊利亚特》和《奥德赛》的作者。史诗充满英雄主义与冒险，浪漫体现在对荣誉、归乡和神人交织的描写。">
-                <div class="code-lines">
+                <div class="code-lines bg-homer">
 // 三行代码 · 奥德赛
 let 归途 = 十年漂泊;
 const 海神 = 愤怒;
@@ -310,7 +351,7 @@ return 奥德修斯 === 坚持 ? 归家 : 永劫;
             </div>
 
             <div class="code-card" data-author="佚名 (《古诗十九首》)" data-bio="《古诗十九首》是东汉末年文人五言诗的选辑，作者不详。迢迢牵牛星借牛郎织女写人间离愁，语言浅近而情深。">
-                <div class="code-lines">
+                <div class="code-lines bg-19shou">
 // 三行代码 · 迢迢牵牛星
 const 河汉 = 清且浅;
 let 相去 = 复几许;
@@ -331,7 +372,7 @@ if (盈盈一水间) 脉脉不得语;
         <div class="epoch-title">⟡ 近代 · 浪漫主义与诗</div>
         <div class="code-grid">
             <div class="code-card" data-author="约翰·济慈" data-bio="济慈（1795-1821），英国浪漫主义诗人。代表作《夜莺颂》《希腊古瓮颂》。他的诗感官细腻，歌颂美与永恒，在短暂生命中留下炽热的浪漫。">
-                <div class="code-lines">
+                <div class="code-lines bg-keats">
 // 三行代码 · 夜莺颂
 let 美 = 永恒;
 const 夜莺 = 不朽的歌声;
@@ -346,7 +387,7 @@ while (heart) { 我在你身旁倾听; }
             </div>
 
             <div class="code-card" data-author="维克多·雨果" data-bio="雨果（1802-1885），法国浪漫主义文学领袖。作品《巴黎圣母院》《悲惨世界》充满人道主义与激情，描写爱与救赎的浪漫。">
-                <div class="code-lines">
+                <div class="code-lines bg-hugo">
 // 三行代码 · 悲惨世界
 let 冉阿让 = 苦役犯;
 const 主教 = 银烛台;
@@ -361,7 +402,7 @@ return 珂赛特 ? 爱 : 革命;
             </div>
 
             <div class="code-card" data-author="亚历山大·普希金" data-bio="普希金（1799-1837），俄国浪漫主义文学奠基人。诗体小说《叶甫盖尼·奥涅金》及大量抒情诗，充满对自由与爱情的渴望。">
-                <div class="code-lines">
+                <div class="code-lines bg-pushkin">
 // 三行代码 · 致凯恩
 const 我记得 = 那美妙的一瞬;
 let 你 = 昙花一现的幻影;
@@ -382,7 +423,7 @@ if (如今) { 灵魂已苏醒; }
         <div class="epoch-title">⟡ 现代 · 诗意与叙事</div>
         <div class="code-grid">
             <div class="code-card" data-author="豪尔赫·路易斯·博尔赫斯" data-bio="博尔赫斯（1899-1986），阿根廷作家。以迷宫、图书馆、无限等意象著称。他的浪漫是形而上的，充满对时间、永恒的沉思。">
-                <div class="code-lines">
+                <div class="code-lines bg-borges">
 // 三行代码 · 我用什么才能留住你
 const 我 = 给你瘦落的街道、绝望的落日;
 let 你 = 我的孤寂、我的黑暗、我心的饥渴;
@@ -397,7 +438,7 @@ return 我用什么才能留住你？
             </div>
 
             <div class="code-card" data-author="阿尔贝·加缪" data-bio="加缪（1913-1960），法国作家、哲学家。代表作《局外人》《西西弗神话》。他的浪漫是在荒诞中反抗，拥抱阳光与大海。">
-                <div class="code-lines">
+                <div class="code-lines bg-camus">
 // 三行代码 · 西西弗神话
 const 荒诞 = 推石上山;
 while (石头) { 滚落; 再推; }
@@ -412,7 +453,7 @@ return 我们必须想象西西弗是幸福的;
             </div>
 
             <div class="code-card" data-author="张爱玲" data-bio="张爱玲（1920-1995），中国现代作家。代表作《倾城之恋》《金锁记》。文字苍凉，写尽都市男女的算计与刹那真情，浪漫藏在世俗之下。">
-                <div class="code-lines">
+                <div class="code-lines bg-zhang">
 // 三行代码 · 倾城之恋
 let 香港 = 陷落;
 const 白流苏 = 范柳原;
@@ -428,7 +469,6 @@ if (整个城市) { 成全了她; }
         </div>
     </div>
 
-    <!-- 底部文字（已删除多余说明，极简处理） -->
     <div class="footer-note">
         三行代码 · 文学浪漫 · 轻触评论，与作者对话
     </div>
