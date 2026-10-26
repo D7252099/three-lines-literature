@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三行·文学浪漫 · 以码为诗</title>
+    <style>
+        /* 全局色调：浅象牙白底，草绿色字，劲瘦偏细 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fbf7ed;    /* 浅象牙白 */
+            color: #3b6e2e;              /* 草绿色，沉稳而清瘦 */
+            font-family: Garamond, 'Times New Roman', '宋体', SimSun, 'Songti SC', serif;
+            font-weight: 300;            /* 细体 */
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 主容器——保持纤细感 */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background-color: transparent;
+        }
+
+        /* 标题区域：强调三行代码与文学浪漫 */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px dashed #a8c89e;
+            padding-bottom: 1.2rem;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            font-weight: 300;           /* 瘦细 */
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: Garamond, 'Times New Roman', '宋体', SimSun, serif;
+            color: #2b5e1f;
+            margin-bottom: 0.5rem;
+        }
+
+        .subhead {
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #577d4a;
+            font-style: italic;
+            font-family: Garamond, 'Times New Roman', '宋体', SimSun, serif;
+        }
+
+        /* 三行代码卡片区 — 每个文学时代一块 */
+        .epoch-section {
+            margin-bottom: 3rem;
+        }
+
+        .epoch-title {
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            border-left: 4px solid #7fa06b;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            color: #2f5a1e;
+            font-family: Garamond, 'Times New Roman', '宋体', SimSun, serif;
+        }
+
+        /* 卡片网格 使用flex 保持轻量 */
+        .code-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            justify-content: center;
+        }
+
+        .code-card {
+            background-color: rgba(255, 250, 235, 0.7); /* 半透明白色，不破坏底色 */
+            border: 1px solid #d4ddc5;
+            border-radius: 18px;
+            padding: 1.6rem 1.2rem 1.2rem 1.2rem;
+            width: 320px;
+            box-shadow: 0 6px 12px rgba(140, 130, 90, 0.05);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(1px);
+        }
+
+        .code-card:hover {
+            border-color: #a8c89e;
+            box-shadow: 0 10px 18px rgba(110, 130, 80, 0.1);
+            background-color: #fffdf6;
+        }
+
+        /* 三行代码主体 — 纤细等宽风格 */
+        .code-lines {
+            font-family: 'Courier New', 'Cascadia Code', 'Fira Code', '宋体', monospace;
+            font-weight: 300;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            line-height: 1.7;
+            color: #2e571f;
+            background: #f9f4e9;
+            padding: 1rem 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 5px solid #b8d0aa;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* 作者标签 */
+        .author {
+            font-size: 1.05rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: #3e6930;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px dotted #b8cfaa;
+            padding-bottom: 0.35rem;
+            font-style: italic;
+            font-family: Garamond, 'Times New Roman', '宋体', serif;
+        }
+
+        .author span {
+            font-style: normal;
+            font-weight: 300;
+            color: #25551a;
+        }
+
+        /* 评论互动区域 */
+        .comment-area {
+            margin-top: 0.3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .comment-input {
+            background: #fefcf5;
+            border: 1px solid #cbdbbc;
+            border-radius: 40px;
+            padding: 0.6rem 1rem;
+            font-family: Garamond, 'Times New Roman', '宋体', serif;
+            font-weight: 300;
+            font-size: 0.85rem;
+            color: #2e4f22;
+            width: 100%;
+            outline: none;
+            transition: 0.15s;
+            resize: none;
+            min-height: 60px;
+            line-height: 1.5;
+        }
+
+        .comment-input::placeholder {
+            color: #9bb58b;
+            font-weight: 300;
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+
+        .comment-input:focus {
+            border-color: #7fa06b;
+            background: #ffffff;
+        }
+
+        .btn-submit {
+            align-self: flex-end;
+            background: transparent;
+            border: 1px solid #97b386;
+            border-radius: 30px;
+            padding: 0.35rem 1.2rem;
+            font-family: Garamond, 'Times New Roman', '宋体', serif;
+            font-weight: 300;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: #3b6e2e;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-transform: uppercase;
+        }
+
+        .btn-submit:hover {
+            background: #e4efdb;
+            border-color: #5f8b4c;
+            color: #1e3f14;
+        }
+
+        /* 系统回复框 */
+        .system-reply {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #3a5f2b;
+            background: #f3f7ec;
+            padding: 0.7rem 1rem;
+            border-radius: 16px;
+            border-left: 4px solid #9eb88c;
+            font-weight: 300;
+            letter-spacing: 0.2px;
+            line-height: 1.6;
+            font-family: Garamond, 'Times New Roman', '宋体', serif;
+        }
+
+        .system-reply i {
+            font-style: italic;
+            color: #6b8e5a;
+        }
+
+        /* 整体诗意细节 */
+        .footer-note {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #99b087;
+            border-top: 1px dashed #d2dfc6;
+            padding-top: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>以码为诗 · 寄意三行</h1>
+        <div class="subhead">世界古代 · 近代 · 现代文学中的浪漫</div>
+    </div>
+
+    <!-- 古代文学 -->
+    <div class="epoch-section">
+        <div class="epoch-title">⟡ 古代 · 诗经与神话</div>
+        <div class="code-grid">
+            <div class="code-card" data-author="佚名 (《诗经》)" data-bio="《诗经》是中国最早的诗歌总集，收录西周至春秋的诗歌，作者大多佚名。蒹葭一诗以水乡秋景起兴，表达对伊人的追慕，朦胧而浪漫。">
+                <div class="code-lines">
+// 三行代码 · 蒹葭
+const 秋水 = 苍苍;
+const 白露 = 为霜;
+while (所谓伊人) { 在水一方; }
+                </div>
+                <div class="author">作者 · <span>佚名</span> (《诗经·秦风》)</div>
+                <div class="comment-area">
+                    <textarea class="comment-input" placeholder="写下你对佚名/《诗经》的评论……" id="comment-1"></textarea>
+                    <button class="btn-submit" data-card="1">评论</button>
+                    <div class="system-reply" id="reply-1"></div>
+                </div>
+            </div>
+
+            <div class="code-card" data-author="荷马" data-bio="荷马，古希腊盲诗人，相传为《伊利亚特》和《奥德赛》的作者。史诗充满英雄主义与冒险，浪漫体现在对荣誉、归乡和神人交织的描写。">
+                <div class="code-lines">
+// 三行代码 · 奥德赛
+let 归途 = 十年漂泊;
+const 海神 = 愤怒;
+return 奥德修斯 === 坚持 ? 归家 : 永劫;
+                </div>
+                <div class="author">作者 · <span>荷马</span> (Homer)</div>
+                <div class="comment-area">
+                    <textarea class="comment-input" placeholder="写下你对荷马的评论……" id="comment-2"></textarea>
+                    <button class="btn-submit" data-card="2">评论</button>
+                    <div class="system-reply" id="reply-2"></div>
+                </div>
+            </div>
+
+            <div class="code-card" data-author="佚名 (《古诗十九首》)" data-bio="《古诗十九首》是东汉末年文人五言诗的选辑，作者不详。迢迢牵牛星借牛郎织女写人间离愁，语言浅近而情深。">
+                <div class="code-lines">
+// 三行代码 · 迢迢牵牛星
+const 河汉 = 清且浅;
+let 相去 = 复几许;
+if (盈盈一水间) 脉脉不得语;
+                </div>
+                <div class="author">作者 · <span>佚名</span> (《古诗十九首》)</div>
+                <div class="comment-area">
+                    <textarea class="comment-input" placeholder="写下你对古诗十九首的评论……" id="comment-3"></textarea>
+                    <button class="btn-submit" data-card="3">评论</button>
+                    <div class="system-reply" id="reply-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 近代文学 -->
+    <div class="epoch-section">
+        <div class="epoch-title">⟡ 近代 · 浪漫主义与诗</div>
+        <div class="code-grid">
+            <div class="code-card" data-author="约翰·济慈" data-bio="济慈（1795-1821），英国浪漫主义诗人。代表作《夜莺颂》《希腊古瓮颂》。他的诗感官细腻，歌颂美与永恒，在短暂生命中留下炽热的浪漫。">
+                <div class="code-lines">
+// 三行代码 · 夜莺颂
+let 美 = 永恒;
+const 夜莺 = 不朽的歌声;
+while (heart) { 我在你身旁倾听; }
+                </div>
+                <div class="author">作者 · <span>约翰·济慈</span> (John Keats)</div>
+                <div class="comment-area">
+                    <textarea class="comment-input" placeholder="写下你对济慈的评论……" id="comment-4"></textarea>
+                    <button class="btn-submit" data-card="4">评论</button>
+                    <div class="system-reply" id="reply-4"></div>
+                </div>
+            </div>
+
+            <div class="code-card" data-author="维克多·雨果" data-bio="雨果（1802-1885），法国浪漫主义文学领袖。作品《巴黎圣母院》《悲惨世界》充满人道主义与激情，描写爱与救赎的浪漫。">
+                <div class="code-lines">
+// 三行代码 · 悲惨世界
+let 冉阿让 = 苦役犯;
+const 主教 = 银烛台;
+return 珂赛特 ? 爱 : 革命;
+                </div>
+                <div class="author">作者 · <span>维克多·雨果</span> (Victor Hugo)</div>
+                <div class="comment-area">
+                    <textarea class="comment-input" placeholder="写下你对雨果的评论……" id="comment-5"></textarea>
+                    <button class="btn-submit" data-card="5">评论</button>
+                    <div class="system-reply" id="reply-5"></div>
+                </div>
+            </div>
+
+            <div class="code-card" data-author="亚历山大·普希金" data-bio="普希金（1799-1837），俄国浪漫主义文学奠基人。诗体小说《叶甫盖尼·奥涅金》及大量抒情诗，充满对自由与爱情的渴望。">
+                <div class="code-lines">
+// 三行代码 · 致凯恩
+const 我记得 = 那美妙的一瞬;
+let 你 = 昙花一现的幻影;
+if (如今) { 灵魂已苏醒; }
+                </div>
+                <div class="author">作者 · <span>亚历山大·普希金</span> (Alexander Pushkin)</div>
+                <div class="comment-area">
+                    <textarea class="comment-input" placeholder="写下你对普希金的评论……" id="comment-6"></textarea>
+                    <button class="btn-submit" data-card="6">评论</button>
+                    <div class="system-reply" id="reply-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 现代文学 -->
+    <div class="epoch-section">
+        <div class="epoch-title">⟡ 现代 · 诗意与叙事</div>
+        <div class="code-grid">
+            <div class="code-card" data-author="豪尔赫·路易斯·博尔赫斯" data-bio="博尔赫斯（1899-1986），阿根廷作家。以迷宫、图书馆、无限等意象著称。他的浪漫是形而上的，充满对时间、永恒的沉思。">
+                <div class="code-lines">
+// 三行代码 · 我用什么才能留住你
+const 我 = 给你瘦落的街道、绝望的落日;
+let 你 = 我的孤寂、我的黑暗、我心的饥渴;
+return 我用什么才能留住你？
+                </div>
+                <div class="author">作者 · <span>博尔赫斯</span> (Jorge Luis Borges)</div>
+                <div class="comment-area">
+                    <textarea class="comment-input" placeholder="写下你对博尔赫斯的评论……" id="comment-7"></textarea>
+                    <button class="btn-submit" data-card="7">评论</button>
+                    <div class="system-reply" id="reply-7"></div>
+                </div>
+            </div>
+
+            <div class="code-card" data-author="阿尔贝·加缪" data-bio="加缪（1913-1960），法国作家、哲学家。代表作《局外人》《西西弗神话》。他的浪漫是在荒诞中反抗，拥抱阳光与大海。">
+                <div class="code-lines">
+// 三行代码 · 西西弗神话
+const 荒诞 = 推石上山;
+while (石头) { 滚落; 再推; }
+return 我们必须想象西西弗是幸福的;
+                </div>
+                <div class="author">作者 · <span>阿尔贝·加缪</span> (Albert Camus)</div>
+                <div class="comment-area">
+                    <textarea class="comment-input" placeholder="写下你对加缪的评论……" id="comment-8"></textarea>
+                    <button class="btn-submit" data-card="8">评论</button>
+                    <div class="system-reply" id="reply-8"></div>
+                </div>
+            </div>
+
+            <div class="code-card" data-author="张爱玲" data-bio="张爱玲（1920-1995），中国现代作家。代表作《倾城之恋》《金锁记》。文字苍凉，写尽都市男女的算计与刹那真情，浪漫藏在世俗之下。">
+                <div class="code-lines">
+// 三行代码 · 倾城之恋
+let 香港 = 陷落;
+const 白流苏 = 范柳原;
+if (整个城市) { 成全了她; }
+                </div>
+                <div class="author">作者 · <span>张爱玲</span> (Eileen Chang)</div>
+                <div class="comment-area">
+                    <textarea class="comment-input" placeholder="写下你对张爱玲的评论……" id="comment-9"></textarea>
+                    <button class="btn-submit" data-card="9">评论</button>
+                    <div class="system-reply" id="reply-9"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        ⚡ 三行代码 · 文学浪漫 · 轻触评论，与作者对话 ⚡<br>
+        <span style="font-size:0.7rem;">字体：Garamond / 宋体 · 劲瘦骨感 · 浅象牙白底 草绿色字</span>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const authorDB = {
+            "佚名 (《诗经》)": {
+                bio: "《诗经》是中国最早的诗歌总集，收录西周至春秋的诗歌，作者大多佚名。蒹葭一诗以水乡秋景起兴，表达对伊人的追慕，朦胧而浪漫。",
+                replies: [
+                    "《诗经》的浪漫是‘所谓伊人，在水一方’的求而不得。你感受到那种秋水长天的怅惘了吗？",
+                    "佚名诗人将民间情感凝练成诗，孔子评‘思无邪’。蒹葭的白露为霜，是华夏最早的朦胧浪漫。",
+                    "‘溯洄从之，道阻且长’ —— 这份执着正是先民最本真的浪漫表达。"
+                ]
+            },
+            "荷马": {
+                bio: "荷马，古希腊盲诗人，相传为《伊利亚特》和《奥德赛》的作者。史诗充满英雄主义与冒险，浪漫体现在对荣誉、归乡和神人交织的描写。",
+                replies: [
+                    "荷马的浪漫是奥德修斯十年漂泊只为归家，是英雄与命运的抗争。‘玫瑰色手指的黎明’每次出现都令人心动。",
+                    "在《伊利亚特》中，赫克托耳与安德洛玛刻的告别，是战争中最温柔浪漫的瞬间。",
+                    "盲诗人荷马用史诗吟唱人类的激情与脆弱。你最喜欢哪位英雄？"
+                ]
+            },
+            "佚名 (《古诗十九首》)": {
+                bio: "《古诗十九首》是东汉末年文人五言诗的选辑，作者不详。迢迢牵牛星借牛郎织女写人间离愁，语言浅近而情深。",
+                replies: [
+                    "‘盈盈一水间，脉脉不得语’—— 这种咫尺天涯的浪漫，比很多现代情诗更动人。",
+                    "《古诗十九首》的浪漫是‘相去日已远，衣带日已缓’的刻骨相思。",
+                    "无名氏的诗句里藏着最朴素的深情。‘河汉清且浅’其实是一种温柔的反抗。"
+                ]
+            },
+            "约翰·济慈": {
+                bio: "济慈（1795-1821），英国浪漫主义诗人。代表作《夜莺颂》《希腊古瓮颂》。他的诗感官细腻，歌颂美与永恒，在短暂生命中留下炽热的浪漫。",
+                replies: [
+                    "济慈说‘美即是真，真即是美’。夜莺的歌声里，他把自己融进了永恒。",
+                    "‘我在黑暗里倾听；呵，多少次我几乎爱上了静谧的死亡’—— 济慈的浪漫带着对消亡的迷恋。",
+                    "他25岁早逝，却留下了最浓烈的浪漫。你最爱《夜莺颂》还是《秋颂》？"
+                ]
+            },
+            "维克多·雨果": {
+                bio: "雨果（1802-1885），法国浪漫主义文学领袖。作品《巴黎圣母院》《悲惨世界》充满人道主义与激情，描写爱与救赎的浪漫。",
+                replies: [
+                    "雨果的浪漫是冉阿让被主教救赎的那一刻，是卡西莫多抱着爱斯梅拉达的尸骸。",
+                    "‘即使是最黑暗的夜，也会结束，太阳会升起。’雨果的人道浪漫主义影响深远。",
+                    "《悲惨世界》里马吕斯和珂赛特的爱情，是雨果对光明最温柔的期许。"
+                ]
+            },
+            "亚历山大·普希金": {
+                bio: "普希金（1799-1837），俄国浪漫主义文学奠基人。诗体小说《叶甫盖尼·奥涅金》及大量抒情诗，充满对自由与爱情的渴望。",
+                replies: [
+                    "《致凯恩》里‘我记得那美妙的一瞬，在我面前出现了你’—— 普希金的浪漫干净而热烈。",
+                    "普希金被誉为‘俄国诗歌的太阳’，他的浪漫里既有高加索的狂野，也有皇村的柔情。",
+                    "‘我曾经爱过你，爱情也许还没有完全从我心底消失’—— 这种克制的浪漫太动人。"
+                ]
+            },
+            "豪尔赫·路易斯·博尔赫斯": {
+                bio: "博尔赫斯（1899-1986），阿根廷作家。以迷宫、图书馆、无限等意象著称。他的浪漫是形而上的，充满对时间、永恒的沉思。",
+                replies: [
+                    "博尔赫斯的浪漫是‘我给你一个从未有过信仰的人的忠诚’—— 一种智性的深情。",
+                    "他用迷宫和镜子构建宇宙，浪漫藏在‘我用什么才能留住你’的绝望里。",
+                    "博尔赫斯失明后仍在写诗，他的浪漫是黑暗中的玫瑰。你读过《关于天赐的诗》吗？"
+                ]
+            },
+            "阿尔贝·加缪": {
+                bio: "加缪（1913-1960），法国作家、哲学家。代表作《局外人》《西西弗神话》。他的浪漫是在荒诞中反抗，拥抱阳光与大海。",
+                replies: [
+                    "加缪的浪漫是‘在隆冬，我终于知道，我身上有一个不可战胜的夏天’。荒诞中的热爱。",
+                    "西西弗推石上山，加缪说‘我们必须想象西西弗是幸福的’。这是最深刻的浪漫反抗。",
+                    "《局外人》最后默尔索向世界敞开心扉，那种‘温柔的冷漠’其实是一种觉醒的浪漫。"
+                ]
+            },
+            "张爱玲": {
+                bio: "张爱玲（1920-1995），中国现代作家。代表作《倾城之恋》《金锁记》。文字苍凉，写尽都市男女的算计与刹那真情，浪漫藏在世俗之下。",
+                replies: [
+                    "‘香港的陷落成全了她’—— 张爱玲的浪漫是废墟里开出的一朵花，务实又凄美。",
+                    "她写‘人生是一袭华美的袍，爬满了蚤子’，这种苍凉本身就构成一种独特的浪漫。",
+                    "白流苏和范柳原，算计里长出的真心，张爱玲的浪漫带着清醒的悲悯。"
+                ]
+            }
+        };
+
+        function getAuthorKey(raw) {
+            if (raw.includes('佚名') && raw.includes('诗经')) return "佚名 (《诗经》)";
+            if (raw.includes('荷马')) return "荷马";
+            if (raw.includes('佚名') && raw.includes('古诗十九首')) return "佚名 (《古诗十九首》)";
+            if (raw.includes('济慈')) return "约翰·济慈";
+            if (raw.includes('雨果')) return "维克多·雨果";
+            if (raw.includes('普希金')) return "亚历山大·普希金";
+            if (raw.includes('博尔赫斯')) return "豪尔赫·路易斯·博尔赫斯";
+            if (raw.includes('加缪')) return "阿尔贝·加缪";
+            if (raw.includes('张爱玲')) return "张爱玲";
+            return raw;
+        }
+
+        document.querySelectorAll('.btn-submit').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const cardId = this.getAttribute('data-card');
+                const card = this.closest('.code-card');
+                const rawAuthor = card.getAttribute('data-author');
+                const authorKey = getAuthorKey(rawAuthor);
+                const replyDiv = document.getElementById(`reply-${cardId}`);
+                const textarea = document.getElementById(`comment-${cardId}`);
+                const comment = textarea.value.trim();
+
+                if (!comment) {
+                    replyDiv.innerHTML = '<i>✎ 写点什么吧，哪怕一句诗……</i>';
+                    return;
+                }
+
+                const db = authorDB[authorKey];
+                if (!db) {
+                    replyDiv.innerHTML = `<i>「${rawAuthor}」的浪漫留存在作品里。感谢你的评论：“${comment}”</i>`;
+                    return;
+                }
+
+                const replies = db.replies;
+                const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                replyDiv.innerHTML = `「${comment}」<br><i>✦ 关于 ${authorKey}：${db.bio.substring(0, 60)}…</i><br>💬 ${randomReply}`;
+            });
+        });
+    })();
+</script>
+</body>
+</html>
